@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Shopping Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        select {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #seller-info {
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Online Shopping Platform</h1>
+
+    <label for="markets">Choose a Market:</label>
+    <select id="markets">
+        <option value="">Select a Market</option>
+        <option value="vegetables">Vegetables Market</option>
+        <option value="clothing">Clothing Market</option>
+        <!-- Add more market options as needed -->
+    </select>
+
+    <label for="sellers">Choose a Seller:</label>
+    <select id="sellers" disabled>
+        <option value="">Select a Market First</option>
+    </select>
+
+    <button onclick="showSellerInfo()">Get Seller Info</button>
+
+    <div id="seller-info">
+        <h2>Seller Information</h2>
+        <p id="seller-name"></p>
+        <p id="seller-contact"></p>
+        <p id="seller-location"></p>
+    </div>
+
+    <script>
+        // Sample data for sellers in different markets
+        const sellersByMarket = {
+            vegetables: [
+                { name: "Fresh Veggies Shop", contact: "123-456-7890", location: "Vegetables Market, Stall 10" },
+                { name: "Organic Greens", contact: "987-654-3210", location: "Vegetables Market, Stall 5" }
+            ],
+            clothing: [
+                { name: "Fashion Paradise", contact: "555-123-4567", location: "Clothing Market, Shop 25" },
+                { name: "Trendy Wear", contact: "777-999-8888", location: "Clothing Market, Shop 15" }
+            ]
+            // Add more sellers for other markets here
+        };
+
+        const marketsDropdown = document.getElementById('markets');
+        const sellersDropdown = document.getElementById('sellers');
+        const sellerInfoDiv = document.getElementById('seller-info');
+        const sellerNameP = document.getElementById('seller-name');
+        const sellerContactP = document.getElementById('seller-contact');
+        const sellerLocationP = document.getElementById('seller-location');
+
+        // Populate sellers dropdown based on selected market
+        marketsDropdown.addEventListener('change', () => {
+            const selectedMarket = marketsDropdown.value;
+            sellersDropdown.innerHTML = '<option value="">Select a Seller</option>';
+
+            if (selectedMarket && sellersByMarket[selectedMarket]) {
+                sellersByMarket[selectedMarket].forEach(seller => {
+                    const option = document.createElement('option');
+                    option.value = seller.name;
+                    option.textContent = seller.name;
+                    sellersDropdown.appendChild(option);
+                });
+
+                sellersDropdown.disabled = false;
+            } else {
+                sellersDropdown.disabled = true;
+            }
+        });
+
+        // Show selected seller's information
+        function showSellerInfo() {
+            const selectedSellerName = sellersDropdown.value;
+
+            if (selectedSellerName) {
+                const selectedMarket = marketsDropdown.value;
+                const selectedSeller = sellersByMarket[selectedMarket].find(seller => seller.name === selectedSellerName);
+
+                if (selectedSeller) {
+                    sellerNameP.textContent = `Seller Name: ${selectedSeller.name}`;
+                    sellerContactP.textContent = `Contact: ${selectedSeller.contact}`;
+                    sellerLocationP.textContent = `Location: ${selectedSeller.location}`;
+                    sellerInfoDiv.style.display = 'block';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
