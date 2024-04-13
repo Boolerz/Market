@@ -29,17 +29,38 @@
 <body>
     <h1>Online Shopping Platform</h1>
 
+    <label for="towns">Choose a Town:</label>
+    <select id="towns" onchange="populateMarkets()">
+        <option value="">Select a Town</option>
+        <option value="town1">Town 1</option>
+        <option value="town2">Town 2</option>
+        <!-- Add more town options as needed -->
+    </select>
+
     <label for="markets">Choose a Market:</label>
-    <select id="markets">
-        <option value="">Select a Market</option>
-        <option value="vegetables">Vegetables Market</option>
-        <option value="clothing">Clothing Market</option>
-        <!-- Add more market options as needed -->
+    <select id="markets" disabled onchange="populateSellers()">
+        <option value="">Select a Town First</option>
+        <!-- Market options will be populated dynamically -->
+    </select>
+
+    <label for="stations">Choose a Picking Station or Delivery:</label>
+    <select id="stations" disabled>
+        <option value="delivery">Home Delivery</option>
+        <option value="station1">Picking Station 1</option>
+        <option value="station2">Picking Station 2</option>
+        <!-- Add more picking stations as needed -->
     </select>
 
     <label for="sellers">Choose a Seller:</label>
     <select id="sellers" disabled>
-        <option value="">Select a Market First</option>
+        <option value="">Select a Market and Station</option>
+        <!-- Sellers will be populated dynamically -->
+    </select>
+
+    <label for="goods">Choose Goods:</label>
+    <select id="goods" disabled>
+        <option value="">Select a Seller First</option>
+        <!-- Goods will be populated dynamically -->
     </select>
 
     <button onclick="showSellerInfo()">Get Seller Info</button>
@@ -49,60 +70,112 @@
         <p id="seller-name"></p>
         <p id="seller-contact"></p>
         <p id="seller-location"></p>
+        <p id="seller-goods"></p>
     </div>
 
     <script>
-        // Sample data for sellers in different markets
-        const sellersByMarket = {
-            vegetables: [
-                { name: "Fresh Veggies Shop", contact: "123-456-7890", location: "Vegetables Market, Stall 10" },
-                { name: "Organic Greens", contact: "987-654-3210", location: "Vegetables Market, Stall 5" }
-            ],
-            clothing: [
-                { name: "Fashion Paradise", contact: "555-123-4567", location: "Clothing Market, Shop 25" },
-                { name: "Trendy Wear", contact: "777-999-8888", location: "Clothing Market, Shop 15" }
-            ]
-            // Add more sellers for other markets here
+        // Sample data for towns, markets, sellers, and goods
+        const data = {
+            town1: {
+                markets: {
+                    vegetables: {
+                        sellers: [
+                            { name: "Fresh Veggies Shop", contact: "123-456-7890", location: "Town 1, Vegetables Market, Stall 10", goods: ["Tomatoes", "Cucumbers", "Carrots"] },
+                            { name: "Organic Greens", contact: "987-654-3210", location: "Town 1, Vegetables Market, Stall 5", goods: ["Spinach", "Kale", "Lettuce"] }
+                        ]
+                    },
+                    clothing: {
+                        sellers: [
+                            { name: "Fashion Paradise", contact: "555-123-4567", location: "Town 1, Clothing Market, Shop 25", goods: ["T-shirts", "Jeans", "Dresses"] },
+                            { name: "Trendy Wear", contact: "777-999-8888", location: "Town 1, Clothing Market, Shop 15", goods: ["Jackets", "Skirts", "Sweaters"] }
+                        ]
+                    }
+                }
+            },
+            town2: {
+                markets: {
+                    vegetables: {
+                        sellers: [
+                            { name: "Farm Fresh Produce", contact: "222-333-4444", location: "Town 2, Vegetables Market, Stall 8", goods: ["Potatoes", "Onions", "Peppers"] },
+                            { name: "Green Harvest", contact: "555-666-7777", location: "Town 2, Vegetables Market, Stall 12", goods: ["Broccoli", "Zucchini", "Green Beans"] }
+                        ]
+                    },
+                    clothing: {
+                        sellers: [
+                            { name: "Style Central", contact: "999-888-7777", location: "Town 2, Clothing Market, Shop 30", goods: ["Suits", "Dress Shirts", "Trousers"] },
+                            { name: "Casual Trends", contact: "111-222-3333", location: "Town 2, Clothing Market, Shop 20", goods: ["Casual Shirts", "Shorts", "Hoodies"] }
+                        ]
+                    }
+                }
+            }
+            // Add more towns, markets, sellers, and goods as needed
         };
 
+        const townsDropdown = document.getElementById('towns');
         const marketsDropdown = document.getElementById('markets');
+        const stationsDropdown = document.getElementById('stations');
         const sellersDropdown = document.getElementById('sellers');
+        const goodsDropdown = document.getElementById('goods');
         const sellerInfoDiv = document.getElementById('seller-info');
         const sellerNameP = document.getElementById('seller-name');
         const sellerContactP = document.getElementById('seller-contact');
         const sellerLocationP = document.getElementById('seller-location');
+        const sellerGoodsP = document.getElementById('seller-goods');
+
+        // Populate markets dropdown based on selected town
+        function populateMarkets() {
+            const selectedTown = townsDropdown.value;
+            marketsDropdown.innerHTML = '<option value="">Select a Market</option>';
+            stationsDropdown.disabled = true;
+            sellersDropdown.disabled = true;
+            goodsDropdown.disabled = true;
+
+            if (selectedTown && data[selectedTown]) {
+                for (const market in data[selectedTown].markets) {
+                    const option = document.createElement('option');
+                    option.value = market;
+                    option.textContent = `${market.charAt(0).toUpperCase()}${market.slice(1)} Market`;
+                    marketsDropdown.appendChild(option);
+                }
+                marketsDropdown.disabled = false;
+            }
+        }
 
         // Populate sellers dropdown based on selected market
-        marketsDropdown.addEventListener('change', () => {
+        function populateSellers() {
+            const selectedTown = townsDropdown.value;
             const selectedMarket = marketsDropdown.value;
-            sellersDropdown.innerHTML = '<option value="">Select a Seller</option>';
 
-            if (selectedMarket && sellersByMarket[selectedMarket]) {
-                sellersByMarket[selectedMarket].forEach(seller => {
+            sellersDropdown.innerHTML = '<option value="">Select a Market and Station</option>';
+            goodsDropdown.innerHTML = '<option value="">Select a Seller First</option>';
+
+            if (selectedTown && selectedMarket) {
+                const sellers = data[selectedTown].markets[selectedMarket].sellers;
+                sellers.forEach(seller => {
                     const option = document.createElement('option');
                     option.value = seller.name;
                     option.textContent = seller.name;
                     sellersDropdown.appendChild(option);
                 });
-
                 sellersDropdown.disabled = false;
-            } else {
-                sellersDropdown.disabled = true;
             }
-        });
+        }
 
         // Show selected seller's information
         function showSellerInfo() {
+            const selectedTown = townsDropdown.value;
+            const selectedMarket = marketsDropdown.value;
             const selectedSellerName = sellersDropdown.value;
+            const selectedGood = goodsDropdown.value;
 
-            if (selectedSellerName) {
-                const selectedMarket = marketsDropdown.value;
-                const selectedSeller = sellersByMarket[selectedMarket].find(seller => seller.name === selectedSellerName);
+            if (selectedSellerName && selectedGood) {
+                const selectedSeller = data[selectedTown].markets[selectedMarket].sellers.find(seller => seller.name === selectedSellerName);
 
                 if (selectedSeller) {
                     sellerNameP.textContent = `Seller Name: ${selectedSeller.name}`;
                     sellerContactP.textContent = `Contact: ${selectedSeller.contact}`;
                     sellerLocationP.textContent = `Location: ${selectedSeller.location}`;
+                    sellerGoodsP.textContent = `Goods: ${selectedGood}`;
                     sellerInfoDiv.style.display = 'block';
                 }
             }
