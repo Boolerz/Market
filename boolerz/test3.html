@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Shopping Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        select {
+            width: 300px;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #seller-info {
+            display: none;
+            margin-top: 20px;
+        }
+        #selected-goods-list {
+            margin-top: 20px;
+        }
+        #selected-goods-list li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Online Shopping Platform</h1>
+
+    <label for="towns">Choose a Town:</label>
+    <select id="towns" onchange="populateMarkets()">
+        <option value="">Select a Town</option>
+        <option value="town1">Town 1</option>
+        <option value="town2">Town 2</option>
+        <!-- Add more town options as needed -->
+    </select>
+
+    <label for="markets">Choose a Market:</label>
+    <select id="markets" disabled onchange="populateStations()">
+        <option value="">Select a Town First</option>
+        <!-- Market options will be populated dynamically -->
+    </select>
+
+    <label for="stations">Choose a Picking Station or Delivery:</label>
+    <select id="stations" disabled onchange="populateSellers()">
+        <option value="">Select a Market First</option>
+        <!-- Station options will be populated dynamically -->
+    </select>
+
+    <label for="sellers">Choose a Seller:</label>
+    <select id="sellers" disabled onchange="populateGoods()">
+        <option value="">Select a Picking Station First</option>
+        <!-- Sellers will be populated dynamically -->
+    </select>
+
+    <label for="goods">Choose Goods:</label>
+    <select id="goods" multiple disabled onchange="updateSelectedGoodsList()">
+        <option value="">Select a Seller First</option>
+        <!-- Goods will be populated dynamically -->
+    </select>
+
+    <button onclick="calculateTotalPrice()">Calculate Total Price</button>
+
+    <ul id="selected-goods-list"></ul>
+
+    <div id="seller-info">
+        <h2>Seller Information</h2>
+        <p id="seller-name"></p>
+        <p id="seller-contact"></p>
+        <p id="seller-location"></p>
+        <p id="seller-goods"></p>
+    </div>
+
+    <script>
+        // Sample data for towns, markets, picking stations, sellers, and goods
+        const data = {
+            town1: {
+                markets: {
+                    vegetables: {
+                        pickingStations: {
+                            station1: {
+                                name: "Picking Station 1",
+                                sellers: [
+                                    { 
+                                        name: "Fresh Veggies Shop", 
+                                        contact: "123-456-7890", 
+                                        location: "Town 1, Vegetables Market, Stall 10", 
+                                        goods: [
+                                            { name: "Tomatoes", price: 2.5, photo: "tomatoes.jpg" },
+                                            { name: "Cucumbers", price: 1.8, photo: "cucumbers.jpg" },
+                                            { name: "Carrots", price: 1.0, photo: "carrots.jpg" }
+                                        ]
+                                    },
+                                    // Add more sellers with goods as needed
+                                ]
+                            },
+                            // Add more picking stations for vegetables market
+                        }
+                    },
+                    // Add more markets as needed
+                }
+            },
+            town2: {
+                markets: {
+                    vegetables: {
+                        pickingStations: {
+                            station1: {
+                                name: "Picking Station 1",
+                                sellers: [
+                                    { 
+                                        name: "Fresh Veggies Shop", 
+                                        contact: "123-456-7890", 
+                                        location: "Town 1, Vegetables Market, Stall 10", 
+                                        goods: [
+                                            { name: "Tomatoes", price: 2.5, photo: "tomatoes.jpg" },
+                                            { name: "Cucumbers", price: 1.8, photo: "cucumbers.jpg" },
+                                            { name: "Carrots", price: 1.0, photo: "carrots.jpg" }
+                                        ]
+                                    },
+                                    // Add more sellers with goods as needed
+                                ]
+                            },
+                            // Add more picking stations for vegetables market
+                        }
+                    },
+                    // Add more markets as needed
+                }
+            },
+            // Add more towns with markets, picking stations, and sellers as needed
+        };
+
+        const townsDropdown = document.getElementById('towns');
+        const marketsDropdown = document.getElementById('markets');
+        const stationsDropdown = document.getElementById('stations');
+        const sellersDropdown = document.getElementById('sellers');
+        const goodsDropdown = document.getElementById('goods');
+        const selectedGoodsList = document.getElementById('selected-goods-list');
+        const sellerInfoDiv = document.getElementById('seller-info');
+        const sellerNameP = document.getElementById('seller-name');
+        const sellerContactP = document.getElementById('seller-contact');
+        const sellerLocationP = document.getElementById('seller-location');
+        const sellerGoodsP = document.getElementById('seller-goods');
+
+        // Populate markets dropdown based on selected town
+        function populateMarkets() {
+            const selectedTown = townsDropdown.value;
+            marketsDropdown.innerHTML = '<option value="">Select a Market</option>';
+            stationsDropdown.disabled = true;
+            sellersDropdown.disabled = true;
+            goodsDropdown.disabled = true;
+
+            if (selectedTown && data[selectedTown]) {
+                for (const market in data[selectedTown].markets) {
+                    const option = document.createElement('option');
+                    option.value = market;
+                    option.textContent = `${market.charAt(0).toUpperCase()}${market.slice(1)} Market`;
+                    marketsDropdown.appendChild(option);
+                }
+                marketsDropdown.disabled = false;
+            }
+        }
+
+        // Populate picking stations dropdown based on selected market
+        function populateStations() {
+            stationsDropdown.innerHTML = '<option value="delivery">Home Delivery</option>';
+            sellersDropdown.innerHTML = '<option value="">Select a Picking Station</option>';
+            goodsDropdown.innerHTML = '<option value="">Select a Market First</option>';
+
+            const selectedTown = townsDropdown.value;
+            const selectedMarket = marketsDropdown.value;
+
+            if (selectedTown && selectedMarket) {
+                const pickingStations = data[selectedTown].markets[selectedMarket].pickingStations;
+                for (const stationKey in pickingStations) {
+                    const station = pickingStations[stationKey];
+                    const option = document.createElement('option');
+                    option.value = stationKey;
+                    option.textContent = station.name;
+                    stationsDropdown.appendChild(option);
+                }
+                stationsDropdown.disabled = false;
+            } else {
+                stationsDropdown.disabled = true;
+            }
+        }
+
+        // Populate sellers dropdown based on selected picking station
+        function populateSellers() {
+            sellersDropdown.innerHTML = '<option value="">Select a Seller</option>';
+            goodsDropdown.innerHTML = '<option value="">Select a Picking Station First</option>';
+
+            const selectedTown = townsDropdown.value;
+            const selectedMarket = marketsDropdown.value;
+            const selectedStation = stationsDropdown.value;
+
+            if (selectedTown && selectedMarket && selectedStation) {
+                const sellers = data[selectedTown].markets[selectedMarket].pickingStations[selectedStation].sellers;
+                sellers.forEach(seller => {
+                    const option = document.createElement('option');
+                    option.value = seller.name;
+                    option.textContent = seller.name;
+                    sellersDropdown.appendChild(option);
+                });
+                sellersDropdown.disabled = false;
+            }
+        }
+
+        // Populate goods dropdown based on selected seller
+        function populateGoods() {
+            goodsDropdown.innerHTML = '<option value="">Select a Seller First</option>';
+
+            const selectedTown = townsDropdown.value;
+            const selectedMarket = marketsDropdown.value;
+            const selectedStation = stationsDropdown.value;
+            const selectedSellerName = sellersDropdown.value;
+
+            if (selectedTown && selectedMarket && selectedStation && selectedSellerName) {
+                const selectedSeller = data[selectedTown].markets[selectedMarket].pickingStations[selectedStation].sellers.find(seller => seller.name === selectedSellerName);
+
+                if (selectedSeller) {
+                    selectedSeller.goods.forEach(good => {
+                        const option = document.createElement('option');
+                        option.value = good.name;
+                        option.textContent = good.name;
+                        goodsDropdown.appendChild(option);
+                    });
+                    goodsDropdown.disabled = false;
+                }
+            }
+        }
+
+        // Update selected goods list
+        function updateSelectedGoodsList() {
+            selectedGoodsList.innerHTML = '';
+            const selectedOptions = [...goodsDropdown.selectedOptions];
+            selectedOptions.forEach(option => {
+                const listItem = document.createElement('li');
+                listItem.textContent = option.textContent;
+                selectedGoodsList.appendChild(listItem);
+            });
+        }
+
+        // Calculate total price of selected goods
+        function calculateTotalPrice() {
+            const selectedOptions = [...goodsDropdown.selectedOptions];
+            let totalPrice = 0;
+
+            selectedOptions.forEach(option => {
+                const selectedTown = townsDropdown.value;
+                const selectedMarket = marketsDropdown.value;
+                const selectedStation = stationsDropdown.value;
+                const selectedSellerName = sellersDropdown.value;
+
+                if (selectedTown && selectedMarket && selectedStation && selectedSellerName) {
+                    const selectedSeller = data[selectedTown].markets[selectedMarket].pickingStations[selectedStation].sellers.find(seller => seller.name === selectedSellerName);
+                    const selectedGood = selectedSeller.goods.find(good => good.name === option.value);
+
+                    if (selectedGood) {
+                        totalPrice += selectedGood.price;
+                    }
+                }
+            });
+
+            alert(`Total Price: $${totalPrice.toFixed(2)}`);
+        }
+    </script>
+</body>
+</html>

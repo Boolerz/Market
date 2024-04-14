@@ -233,193 +233,146 @@
         <p id="seller-contact"></p>
         <p id="seller-location"></p>
         <p id="seller-goods"></p>
-    </div>
+    </div>  
     
     <script>
     // Sample data for towns, markets, sellers, and goods
     const data = {
-        town1: {
-            markets: {
-                Saba_Saba: {
-                    sellers: [
-                        { name: "Fresh Veggies Shop", contact: "123-456-7890", location: "Town 1, Vegetables Market, Stall 10", goods: ["Tomatoes", "Cucumbers", "Carrots"] },
-                        { name: "Organic Greens", contact: "987-654-3210", location: "Town 1, Vegetables Market, Stall 5", goods: ["Spinach", "Kale", "Lettuce"] }
-                    ]
-                    
-                },
-                Majengo: {
-                    sellers: [
-                        { name: "Fashion Paradise", contact: "555-123-4567", location: "Town 1, Clothing Market, Shop 25", goods: ["T-shirts", "Jeans", "Dresses"] },
-                        { name: "Trendy Wear", contact: "777-999-8888", location: "Town 1, Clothing Market, Shop 15", goods: ["Jackets", "Skirts", "Sweaters"] }
-                    ]
-                },
-                Makupa: {
-                    sellers: [
-                        { name: "Fashion Paradise", contact: "555-123-4567", location: "Town 1, Clothing Market, Shop 25", goods: ["T-shirts", "Jeans", "Dresses"] },
-                        { name: "Trendy Wear", contact: "777-999-8888", location: "Town 1, Clothing Market, Shop 15", goods: ["Jackets", "Skirts", "Sweaters"] }
-                    ]
-                }
-            }
-        },
-        town2: {
-            markets: {
-                vegetables: {
-                    sellers: [
-                        { name: "Farm Fresh Produce", contact: "222-333-4444", location: "Town 2, Vegetables Market, Stall 8", goods: ["Potatoes", "Onions", "Peppers"] },
-                        { name: "Green Harvest", contact: "555-666-7777", location: "Town 2, Vegetables Market, Stall 12", goods: ["Broccoli", "Zucchini", "Green Beans"] }
-                    ]
-                },
-                clothing: {
-                    sellers: [
-                        { name: "Style Central", contact: "999-888-7777", location: "Town 2, Clothing Market, Shop 30", goods: ["Suits", "Dress Shirts", "Trousers"] },
-                        { name: "Casual Trends", contact: "111-222-3333", location: "Town 2, Clothing Market, Shop 20", goods: ["Casual Shirts", "Shorts", "Hoodies"] }
-                    ]
-                }
-            }
-        },
-        town3: {
-            markets: {
-                vegetables: {
-                    sellers: [
-                        { name: "Fresh Veggies Shop", contact: "123-456-7890", location: "Town 1, Vegetables Market, Stall 10", goods: ["Tomatoes", "Cucumbers", "Carrots"] },
-                        { name: "Organic Greens", contact: "987-654-3210", location: "Town 1, Vegetables Market, Stall 5", goods: ["Spinach", "Kale", "Lettuce"] }
-                    ]
-                },
-                clothing: {
-                    sellers: [
-                        { name: "Fashion Paradise", contact: "555-123-4567", location: "Town 1, Clothing Market, Shop 25", goods: ["T-shirts", "Jeans", "Dresses"] },
-                        { name: "Trendy Wear", contact: "777-999-8888", location: "Town 1, Clothing Market, Shop 15", goods: ["Jackets", "Skirts", "Sweaters"] }
-                    ]
-                }
-            }
-        },
-        town4: {
-            markets: {
-                vegetables: {
-                    sellers: [
-                        { name: "Fresh Veggies Shop", contact: "123-456-7890", location: "Town 1, Vegetables Market, Stall 10", goods: ["Tomatoes", "Cucumbers", "Carrots"] },
-                        { name: "Organic Greens", contact: "987-654-3210", location: "Town 1, Vegetables Market, Stall 5", goods: ["Spinach", "Kale", "Lettuce"] }
-                    ]
-                },
-                clothing: {
-                    sellers: [
-                        { name: "Fashion Paradise", contact: "555-123-4567", location: "Town 1, Clothing Market, Shop 25", goods: ["T-shirts", "Jeans", "Dresses"] },
-                        { name: "Trendy Wear", contact: "777-999-8888", location: "Town 1, Clothing Market, Shop 15", goods: ["Jackets", "Skirts", "Sweaters"] }
-                    ]
-                }
-            }
-        },
-        // Add more towns, markets, sellers, and goods as needed
-    };
+    town1: {
+        markets: {
+            Marikiti: {
+                pickingStation: {
+                    station1: {
+                        name: "Picking Station 1",
+                        sellers: [
+                            { 
+                                name: "Ann Nyaboki", 
+                                contact: "123-456-7890", 
+                                location: "Town 1, Vegetables Market, Stall 10", 
+                                goods: ["Tomatoes", "Cucumbers", "Carrots"]
+                            },
+                            { 
+                                name: "Jacob Wainaina", 
+                                contact: "987-654-3210", 
+                                location: "Town 1, Vegetables Market, Stall 5", 
+                                goods: ["Spinach", "Kale", "Lettuce"]
+                            }
+                        ],
+                    station2: {
 
-    const townsDropdown = document.getElementById('towns');
-    const marketsDropdown = document.getElementById('markets');
-    const stationsDropdown = document.getElementById('stations');
-    const sellersDropdown = document.getElementById('sellers');
-    const goodsDropdown = document.getElementById('goods');
-    const sellerInfoDiv = document.getElementById('seller-info');
-    const sellerNameP = document.getElementById('seller-name');
-    const sellerContactP = document.getElementById('seller-contact');
-    const sellerLocationP = document.getElementById('seller-location');
-    const sellerGoodsP = document.getElementById('seller-goods');
+                    }
+                    },
+                    station2: {
+                        name: "Picking Station 2",
+                        sellers: [
+                            { 
+                                name: "Farm Fresh Produce", 
+                                contact: "222-333-4444", 
+                                location: "Town 1, Vegetables Market, Stall 8", 
+                                goods: ["Potatoes", "Onions", "Peppers"]
+                            },
+                            { 
+                                name: "Green Harvest", 
+                                contact: "555-666-7777", 
+                                location: "Town 1, Vegetables Market, Stall 12", 
+                                goods: ["Broccoli", "Zucchini", "Green Beans"]
+                            }
+                        ]
+                    }
+                }
+            },
+            Kongowea: {
+                pickingStations: {
+                    station1: {
+                        name: "Picking Station 1",
+                        sellers: [
+                            { 
+                                name: "Fashion Paradise", 
+                                contact: "555-123-4567", 
+                                location: "Town 1, Clothing Market, Shop 25", 
+                                goods: ["T-shirts", "Jeans", "Dresses"]
+                            }
+                        ]
+                    },
+                    delivery: {
+                        name: "Home Delivery",
+                        sellers: [
+                            { 
+                                name: "Trendy Wear", 
+                                contact: "777-999-8888", 
+                                location: "Town 1, Clothing Market, Shop 15", 
+                                goods: ["Jackets", "Skirts", "Sweaters"]
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    // Add more towns, markets, picking stations, and sellers as needed
+};
+// Populate picking stations dropdown based on selected market
+function populateStations() {
+    stationsDropdown.innerHTML = '<option value="delivery">Home Delivery</option>';
+    sellersDropdown.innerHTML = '<option value="">Select a Picking Station</option>';
+    goodsDropdown.innerHTML = '<option value="">Select a Seller First</option>';
 
-    // Populate markets dropdown based on selected town
-    function populateMarkets() {
-        const selectedTown = townsDropdown.value;
-        marketsDropdown.innerHTML = '<option value="">Select a Market</option>';
+    const selectedTown = townsDropdown.value;
+    const selectedMarket = marketsDropdown.value;
+
+    if (selectedTown && selectedMarket) {
+        const pickingStations = data[selectedTown].markets[selectedMarket].pickingStations;
+        for (const stationKey in pickingStations) {
+            const station = pickingStations[stationKey];
+            const option = document.createElement('option');
+            option.value = stationKey;
+            option.textContent = station.name;
+            stationsDropdown.appendChild(option);
+        }
+        stationsDropdown.disabled = false;
+    } else {
         stationsDropdown.disabled = true;
-        sellersDropdown.disabled = true;
-        goodsDropdown.disabled = true;
+    }
+}
 
-        if (selectedTown && data[selectedTown]) {
-            for (const market in data[selectedTown].markets) {
-                const option = document.createElement('option');
-                option.value = market;
-                option.textContent = `${market.charAt(0).toUpperCase()}${market.slice(1)} Market`;
-                marketsDropdown.appendChild(option);
-            }
-            marketsDropdown.disabled = false;
+// Populate sellers dropdown based on selected picking station
+function populateSellers() {
+    sellersDropdown.innerHTML = '<option value="">Select a Seller</option>';
+    goodsDropdown.innerHTML = '<option value="">Select a Seller First</option>';
+
+    const selectedTown = townsDropdown.value;
+    const selectedMarket = marketsDropdown.value;
+    const selectedStation = stationsDropdown.value;
+
+    if (selectedTown && selectedMarket && selectedStation) {
+        const sellers = data[selectedTown].markets[selectedMarket].pickingStations[selectedStation].sellers;
+        sellers.forEach(seller => {
+            const option = document.createElement('option');
+            option.value = seller.name;
+            option.textContent = seller.name;
+            sellersDropdown.appendChild(option);
+        });
+        sellersDropdown.disabled = false;
+    }
+}
+
+// Show selected seller's information
+function showSellerInfo() {
+    const selectedTown = townsDropdown.value;
+    const selectedMarket = marketsDropdown.value;
+    const selectedStation = stationsDropdown.value;
+    const selectedSellerName = sellersDropdown.value;
+    const selectedGood = goodsDropdown.value;
+
+    if (selectedTown && selectedMarket && selectedStation && selectedSellerName && selectedGood) {
+        const selectedSeller = data[selectedTown].markets[selectedMarket].pickingStations[selectedStation].sellers.find(seller => seller.name === selectedSellerName);
+
+        if (selectedSeller) {
+            sellerNameP.textContent = `Seller Name: ${selectedSeller.name}`;
+            sellerContactP.textContent = `Contact: ${selectedSeller.contact}`;
+            sellerLocationP.textContent = `Location: ${selectedSeller.location}`;
+            sellerGoodsP.textContent = `Goods: ${selectedGood}`;
+            sellerInfoDiv.style.display = 'block';
         }
     }
-
-    // Populate picking stations dropdown based on selected market
-    function populateStations() {
-        stationsDropdown.innerHTML = '<option value="delivery">Home Delivery</option>';
-        sellersDropdown.innerHTML = '<option value="">Select a Market and Station</option>';
-        goodsDropdown.innerHTML = '<option value="">Select a Seller First</option>';
-
-        const selectedTown = townsDropdown.value;
-        const selectedMarket = marketsDropdown.value;
-
-        if (selectedMarket && selectedMarket !== "") {
-            // Enable stations dropdown
-            stationsDropdown.disabled = false;
-        } else {
-            // Disable stations dropdown if market is not selected
-            stationsDropdown.disabled = true;
-        }
-    }
-
-    // Populate sellers dropdown based on selected market and station
-    function populateSellers() {
-        sellersDropdown.innerHTML = '<option value="">Select a Market and Station</option>';
-        goodsDropdown.innerHTML = '<option value="">Select a Seller First</option>';
-
-        const selectedTown = townsDropdown.value;
-        const selectedMarket = marketsDropdown.value;
-
-        if (selectedTown && selectedMarket) {
-            const sellers = data[selectedTown].markets[selectedMarket].sellers;
-            sellers.forEach(seller => {
-                const option = document.createElement('option');
-                option.value = seller.name;
-                option.textContent = seller.name;
-                sellersDropdown.appendChild(option);
-            });
-            sellersDropdown.disabled = false;
-        }
-    }
-
-    // Populate goods dropdown based on selected seller
-    function populateGoods() {
-        goodsDropdown.innerHTML = '<option value="">Select a Seller First</option>';
-
-        const selectedTown = townsDropdown.value;
-        const selectedMarket = marketsDropdown.value;
-        const selectedSellerName = sellersDropdown.value;
-
-        if (selectedTown && selectedMarket && selectedSellerName) {
-            const selectedSeller = data[selectedTown].markets[selectedMarket].sellers.find(seller => seller.name === selectedSellerName);
-
-            if (selectedSeller) {
-                selectedSeller.goods.forEach(good => {
-                    const option = document.createElement('option');
-                    option.value = good;
-                    option.textContent = good;
-                    goodsDropdown.appendChild(option);
-                });
-                goodsDropdown.disabled = false;
-            }
-        }
-    }
-
-    // Show selected seller's information
-    function showSellerInfo() {
-        const selectedTown = townsDropdown.value;
-        const selectedMarket = marketsDropdown.value;
-        const selectedSellerName = sellersDropdown.value;
-        const selectedGood = goodsDropdown.value;
-
-        if (selectedSellerName && selectedGood) {
-            const selectedSeller = data[selectedTown].markets[selectedMarket].sellers.find(seller => seller.name === selectedSellerName);
-
-            if (selectedSeller) {
-                sellerNameP.textContent = `Seller Name: ${selectedSeller.name}`;
-                sellerContactP.textContent = `Contact: ${selectedSeller.contact}`;
-                sellerLocationP.textContent = `Location: ${selectedSeller.location}`;
-                sellerGoodsP.textContent = `Goods: ${selectedGood}`;
-                sellerInfoDiv.style.display = 'block';
-            }
-        }
-    }
-</script>
+}
